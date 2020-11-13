@@ -1,9 +1,3 @@
-const functions = require("firebase-functions");
+const { onCreateUser } = require("./auth/onCreateUser");
 
-// Create and Deploy Your First Cloud Functions
-// https://firebase.google.com/docs/functions/write-firebase-functions
-
-exports.helloWorld = functions.https.onRequest((request, response) => {
-  functions.logger.info("Hello logs!", { structuredData: true });
-  response.send("Hello World!");
-});
+exports.onCreatUser = onCreateUser;

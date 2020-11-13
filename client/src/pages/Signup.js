@@ -1,6 +1,8 @@
 import React from "react";
 import { useForm } from "../hook/useForm";
-import { firebase } from "../firebase";
+import { useAuth } from "../AuthProvider";
+import { Layout } from "../Layout";
+import { useHistory } from "react-router-dom";
 
 export const Signup = () => {
   const { form, handleChange } = useForm({
@@ -8,8 +10,11 @@ export const Signup = () => {
     password: "",
   });
 
+  const history = useHistory();
+  const { signUpWithEmailAndPassword, signInWithGoogle } = useAuth();
+
   return (
-    <div>
+    <Layout>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -17,11 +22,9 @@ export const Signup = () => {
 
           const { email, password } = form;
 
-          firebase
-            .auth()
-            .createUserWithEmailAndPassword(email, password)
-            .then((credential) => console.log(credential))
-            .catch((err) => console.error(err));
+          signUpWithEmailAndPassword(email, password).then(() =>
+            history.push("/dashboard")
+          );
         }}
       >
         <div>
@@ -32,9 +35,11 @@ export const Signup = () => {
           <label htmlFor="password">Password</label>
           <input type="password" id="password" onChange={handleChange} />
         </div>
-
+        <button type="button" onClick={signInWithGoogle}>
+          Sign Up With Google
+        </button>
         <button>Sign Up</button>
       </form>
-    </div>
+    </Layout>
   );
 };
