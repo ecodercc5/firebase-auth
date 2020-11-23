@@ -2,7 +2,6 @@ import React from "react";
 import { useForm } from "../hook/useForm";
 import { useAuth } from "../AuthProvider";
 import { Layout } from "../Layout";
-import { useHistory } from "react-router-dom";
 
 export const Signup = () => {
   const { form, handleChange } = useForm({
@@ -10,7 +9,6 @@ export const Signup = () => {
     password: "",
   });
 
-  const history = useHistory();
   const { signUpWithEmailAndPassword, signInWithGoogle } = useAuth();
 
   return (
@@ -22,9 +20,7 @@ export const Signup = () => {
 
           const { email, password } = form;
 
-          signUpWithEmailAndPassword(email, password).then(() =>
-            history.push("/dashboard")
-          );
+          signUpWithEmailAndPassword(email, password);
         }}
       >
         <div>

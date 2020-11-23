@@ -1,12 +1,11 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import { useAuth } from "../AuthProvider";
 import { Layout } from "../Layout";
 import { firebase } from "../firebase";
+import { useAuthRoleSetup } from "../hook/useAuthRoleSetup";
 
 export const Dashboard = () => {
   const { user, signOut } = useAuth();
-  const history = useHistory();
 
   console.log(user);
 
@@ -18,15 +17,15 @@ export const Dashboard = () => {
     console.log(idTokenResult);
   };
 
+  useAuthRoleSetup();
+
   return (
     <Layout>
       <h2>Dashboard</h2>
 
       <button onClick={getIdToken}>Get Id token result</button>
 
-      <button onClick={() => signOut().then(() => history.push("/login"))}>
-        Sign Out
-      </button>
+      <button onClick={signOut}>Sign Out</button>
     </Layout>
   );
 };
