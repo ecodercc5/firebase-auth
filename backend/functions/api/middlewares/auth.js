@@ -4,7 +4,7 @@ exports.isAuth = async (req, res, next) => {
   const authHeader = req.header("Authorization");
 
   if (!authHeader)
-    return res.status(403).json({ message: "Missing Authorization Header" });
+    return res.status(401).json({ message: "Missing Authorization Header" });
 
   const [type, token] = authHeader.split(" ");
 
@@ -14,14 +14,14 @@ exports.isAuth = async (req, res, next) => {
       .json({ message: "Authorization Token Type is not of type Bearer" });
 
   try {
-    const userCredentials = await authService.isAuth(token);
+    const userClaims = await authService.isAuth(token);
 
-    req.userCredentials = userCredentials;
+    req.userClaims = userClaims;
 
     return next();
   } catch (err) {
     console.log(err);
 
-    return res.sendStatus(403);
+    return res.sendStatus(401);
   }
 };

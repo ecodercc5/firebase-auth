@@ -3,28 +3,36 @@ import { useAuth } from "../AuthProvider";
 import { Layout } from "../Layout";
 import { firebase } from "../firebase";
 import { useAuthRoleSetup } from "../hook/useAuthRoleSetup";
+import { TeacherDashboard } from "./TeacherDashboard";
+import { StudentDashboard } from "./StudentDashboard";
+
+const ROLE = {
+  Teacher: "Teacher",
+  Student: "Student",
+};
 
 export const Dashboard = () => {
-  const { user, signOut } = useAuth();
+  useAuthRoleSetup();
+  const { auth, signOut } = useAuth();
 
-  console.log(user);
+  const role = auth.claims.role;
 
-  const getIdToken = async () => {
-    const idTokenResult = await firebase
-      .auth()
-      .currentUser.getIdTokenResult(true);
-
-    console.log(idTokenResult);
+  const getDashboard = (role) => {
+    switch (role) {
+      case ROLE.Student:
+        return <StudentDashboard />;
+      case ROLE.Teacher:
+        return <TeacherDashboard />;
+      default:
+        return null;
+    }
   };
 
-  useAuthRoleSetup();
+  console.log(auth.user);
 
   return (
     <Layout>
-      <h2>Dashboard</h2>
-
-      <button onClick={getIdToken}>Get Id token result</button>
-
+      {getDashboard(role)}
       <button onClick={signOut}>Sign Out</button>
     </Layout>
   );

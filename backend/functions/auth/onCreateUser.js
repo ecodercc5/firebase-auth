@@ -5,10 +5,6 @@ const { db } = require("../firestore");
 exports.onCreateUser = functions.auth.user().onCreate((user) => {
   const { email, uid } = user;
 
-  admin.auth().setCustomUserClaims(uid, {
-    role: null,
-  });
-
   const userDoc = db.collection("users").doc(uid);
 
   return userDoc.set({ email, uid, role: null });

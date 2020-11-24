@@ -11,14 +11,34 @@ export class Api {
     return token ? `Bearer ${token}` : null;
   }
 
+  async getHeaders() {
+    const authToken = await this.getAuthToken();
+
+    return {
+      Authorization: authToken,
+    };
+  }
+
   constructEndPoint(pathname) {
     return this.baseUrl + pathname;
   }
 
   async get(pathname) {
+    const headers = await this.getHeaders();
+
     const endpoint = this.constructEndPoint(pathname);
 
-    const data = await fetch(endpoint);
+    const data = await fetch(endpoint, { headers });
+    const json = await data.json();
+
+    return json;
+  }
+
+  async post(pathname) {
+    const headers = await this.getHeaders();
+    const endpoint = this.constructEndPoint(pathname);
+
+    const data = await fetch(endpoint, { method: "POST", headers });
     const json = await data.json();
 
     return json;
