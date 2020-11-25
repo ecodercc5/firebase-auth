@@ -40,6 +40,8 @@ export const AuthProvider = ({ children }) => {
         const idTokenResult = await firebase
           .auth()
           .currentUser.getIdTokenResult(true);
+
+        console.log(idTokenResult.token);
         setClaims(idTokenResult.claims);
       } else {
         setClaims(null);

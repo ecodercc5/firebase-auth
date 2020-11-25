@@ -1,7 +1,6 @@
 import React from "react";
 import { useAuth } from "../AuthProvider";
 import { Layout } from "../Layout";
-import { firebase } from "../firebase";
 import { useAuthRoleSetup } from "../hook/useAuthRoleSetup";
 import { TeacherDashboard } from "./TeacherDashboard";
 import { StudentDashboard } from "./StudentDashboard";
@@ -28,12 +27,11 @@ export const Dashboard = () => {
     }
   };
 
-  console.log(auth.user);
-
   return (
     <Layout>
-      {getDashboard(role)}
       <button onClick={signOut}>Sign Out</button>
+
+      {getDashboard(role)}
     </Layout>
   );
 };

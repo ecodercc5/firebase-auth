@@ -3,13 +3,9 @@ const router = express.Router();
 const admin = require("firebase-admin");
 const { db } = require("../firestore");
 const { isAuth } = require("./middlewares/auth");
+const { ROLE } = require("./enums/role");
 
 router.use(isAuth);
-
-const ROLE = {
-  Teacher: "Teacher",
-  Student: "Student",
-};
 
 router.post("/teacher", async (req, res) => {
   const { uid } = req.userClaims;

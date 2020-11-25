@@ -1,5 +1,14 @@
 import React from "react";
 
 export const TeacherDashboard = () => {
-  return <div>You are a teacher</div>;
+  return (
+    <div>
+      <h2>Your Classes</h2>
+
+      <form>
+        <input />
+        <button>Add Class</button>
+      </form>
+    </div>
+  );
 };

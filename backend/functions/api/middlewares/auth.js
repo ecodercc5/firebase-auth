@@ -1,3 +1,4 @@
+const { ROLE } = require("../enums/role");
 const { authService } = require("../services/auth");
 
 exports.isAuth = async (req, res, next) => {
@@ -24,4 +25,15 @@ exports.isAuth = async (req, res, next) => {
 
     return res.sendStatus(401);
   }
+};
+
+exports.isTeacher = (req, res, next) => {
+  const { role } = req.userClaims;
+
+  console.log({ role });
+
+  if (role !== ROLE.Teacher)
+    return res.status(401).json({ message: "Unauthorized, not a teacher" });
+
+  return next();
 };
