@@ -6,7 +6,7 @@ class ClassApi extends Api {
   }
 
   async getClasses() {
-    const res = await this.post("/");
+    const res = await this.get("/");
     return res.data.classes;
   }
 }
