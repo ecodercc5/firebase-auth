@@ -9,6 +9,11 @@ class ClassApi extends Api {
     const res = await this.get("/");
     return res.data.classes;
   }
+
+  async addClass({ name }) {
+    const res = await this.post("/", { name });
+    return res.data.class;
+  }
 }
 
 export const classApi = new ClassApi();

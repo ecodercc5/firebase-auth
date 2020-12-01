@@ -34,11 +34,15 @@ export class Api {
     return json;
   }
 
-  async post(pathname) {
+  async post(pathname, body = {}) {
     const headers = await this.getHeaders();
     const endpoint = this.constructEndPoint(pathname);
 
-    const data = await fetch(endpoint, { method: "POST", headers });
+    const data = await fetch(endpoint, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(body),
+    });
     const json = await data.json();
 
     return json;
