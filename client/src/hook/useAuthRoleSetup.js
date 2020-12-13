@@ -15,6 +15,7 @@ export const useAuthRoleSetup = ({ required = true } = {}) => {
       const role = idTokenResult.claims.role;
       return Boolean(role);
     };
+
     getUserRoleExists().then((roleExists) => {
       if (!roleExists && required) return history.push(SETUP_ROUTE);
       if (roleExists && !required) return history.push("/dashboard");
