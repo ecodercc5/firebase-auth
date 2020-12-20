@@ -1,21 +1,22 @@
 @api = http://localhost:5001/fir-auth-d0f22/us-central1/api
-@a = Bearer eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJuYW1lIjoiUGFuZGEgUGVhY2giLCJyb2xlIjoiVGVhY2hlciIsImVtYWlsIjoicGFuZGEucGVhY2guMzIwQHRlc3QuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF1dGhfdGltZSI6MTYwODQxODc0OCwidXNlcl9pZCI6IkM4TkdZM2lKcndzdDd6R0dCRWVtNHllOTBvZmEiLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbInBhbmRhLnBlYWNoLjMyMEB0ZXN0LmNvbSJdLCJnb29nbGUuY29tIjpbIjEwMjc2MDE2Njc0ODczMzA3ODY5MjY3Mzc1Mjk2MjYyNjYyNjUzODUiXX0sInNpZ25faW5fcHJvdmlkZXIiOiJnb29nbGUuY29tIn0sImlhdCI6MTYwODQxODc0OCwiZXhwIjoxNjA4NDIyMzQ4LCJhdWQiOiJmaXItYXV0aC1kMGYyMiIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9maXItYXV0aC1kMGYyMiIsInN1YiI6IkM4TkdZM2lKcndzdDd6R0dCRWVtNHllOTBvZmEifQ.
+@teacher_token = Bearer eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJuYW1lIjoiR3Jhc3MgQ2hpY2tlbiIsInJvbGUiOiJUZWFjaGVyIiwiZW1haWwiOiJncmFzcy5jaGlja2VuLjM4NUB0ZXN0LmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdXRoX3RpbWUiOjE2MDg0OTkwOTIsInVzZXJfaWQiOiJ1WjVPN2NqbTNrQ0Z1RzFYT3JzN2FETlFnSnppIiwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJncmFzcy5jaGlja2VuLjM4NUB0ZXN0LmNvbSJdLCJnb29nbGUuY29tIjpbIjg5MjM4MDM1NDM5MTkyOTMyODI5NzYwMTE3Nzg2Mzg0MjUxOTU4OTEiXX0sInNpZ25faW5fcHJvdmlkZXIiOiJnb29nbGUuY29tIn0sImlhdCI6MTYwODQ5OTA5MiwiZXhwIjoxNjA4NTAyNjkyLCJhdWQiOiJmaXItYXV0aC1kMGYyMiIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9maXItYXV0aC1kMGYyMiIsInN1YiI6InVaNU83Y2ptM2tDRnVHMVhPcnM3YUROUWdKemkifQ.
+@student_token = Bearer eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJuYW1lIjoiUGFuZGEgT2xpdmUiLCJyb2xlIjoiU3R1ZGVudCIsImVtYWlsIjoicGFuZGEub2xpdmUuMzZAdGVzdC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXV0aF90aW1lIjoxNjA4NDk5NjY5LCJ1c2VyX2lkIjoiTjN3T2ExRjhkU0wwODcwOFhYd0ZZcTE3QTM0ZSIsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsicGFuZGEub2xpdmUuMzZAdGVzdC5jb20iXSwiZ29vZ2xlLmNvbSI6WyI3NTU3OTE5NDgxMjExMzkwNDIyNjQxOTYyMzkwMDQ4OTkwMTA2NzYxIl19LCJzaWduX2luX3Byb3ZpZGVyIjoiZ29vZ2xlLmNvbSJ9LCJpYXQiOjE2MDg0OTk2NjksImV4cCI6MTYwODUwMzI2OSwiYXVkIjoiZmlyLWF1dGgtZDBmMjIiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLWF1dGgtZDBmMjIiLCJzdWIiOiJOM3dPYTFGOGRTTDA4NzA4WFh3RllxMTdBMzRlIn0.
 
 ###
 GET {{api}}/whrolly
-Authorization: {{a}}
+Authorization: {{teacher_token}}
 
 ###
 POST {{api}}/role/teacher
-Authorization: {{a}}
+Authorization: {{teacher_token}}
 ###
 
 POST {{api}}/role/student
-Authorization: {{a}}
+Authorization: {{teacher_token}}
 ###
 
 POST {{api}}/class
-Authorization: {{a}}
+Authorization: {{teacher_token}}
 Content-Type: application/json
 
 {
@@ -24,5 +25,10 @@ Content-Type: application/json
 
 ###
 GET {{api}}/class
-Authorization: {{a}}
+Authorization: {{teacher_token}}
+Content-Type: application/json
+
+### 
+POST {{api}}/class/join/add588
+Authorization: {{student_token}}
 Content-Type: application/json

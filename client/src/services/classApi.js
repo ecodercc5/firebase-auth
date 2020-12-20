@@ -16,6 +16,11 @@ class ClassApi extends Api {
     const res = await this.post("/", { name });
     return res.data.class;
   }
+
+  async joinClass(classCode) {
+    const res = await this.post(`/join/${classCode}`);
+    return res.data.class;
+  }
 }
 
 export const classApi = new ClassApi();

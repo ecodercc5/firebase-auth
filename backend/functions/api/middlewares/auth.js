@@ -37,3 +37,14 @@ exports.isTeacher = (req, res, next) => {
 
   return next();
 };
+
+exports.isStudent = (req, res, next) => {
+  const { role } = req.userClaims;
+
+  console.log({ role });
+
+  if (role !== ROLE.Student)
+    return res.status(401).json({ message: "Unauthorized, not a student" });
+
+  return next();
+};

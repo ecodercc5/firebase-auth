@@ -42,3 +42,25 @@ export const useAddClass = () => {
 
   return [execute, { loading, error }];
 };
+
+export const useJoinClass = () => {
+  const store = useStore();
+  const joinClass = async (classCode) => {
+    try {
+      const newClass = await classApi.joinClass(classCode);
+
+      store.update("classes", (prevClasses) => addToEnd(prevClasses, newClass));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const { loading, error, execute } = useAsync(joinClass, [], { lazy: true });
+
+  return [execute, { loading, error }];
+};
+
+// Utility Functions
+const addToEnd = (arr, element) => {
+  return [...arr, element];
+};

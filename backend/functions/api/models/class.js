@@ -3,11 +3,10 @@ const { uid } = require("uid");
 const { db } = require("../../firestore");
 
 class Class extends Model {
-  constructor({ id, name, code = uid(6), numStudents = 0, teacher }) {
+  constructor({ id, name, code = uid(6), teacher }) {
     super({ id });
     this.name = name;
     this.code = code;
-    this.numStudents = numStudents;
     this.teacher = teacher;
   }
 
@@ -20,12 +19,36 @@ class Class extends Model {
     const classDocs = snapshots.docs.map((doc) => doc.data());
     return classDocs;
   }
+
+  static async getClassesByStudentId(studentId) {
+    const studentRef = db.collection("users").doc(studentId);
+    const studentSnapshot = await studentRef.get();
+    const student = studentSnapshot.exists ? studentSnapshot.data() : null;
+
+    if (!student) return [];
+
+    const classIds = student.classIds || [];
+    const classes = await Promise.all(
+      classIds.map(async (id) => {
+        const classRoomRef = db.collection("classes").doc(id);
+        const classRoomSnapshot = await classRoomRef
+          .withConverter(ClassConverter)
+          .get();
+
+        const classRoom = classRoomSnapshot.data();
+
+        return classRoom;
+      })
+    );
+
+    return classes;
+  }
 }
 
 const ClassConverter = {
   toFirestore: (classObj) => {
-    const { name, code, numStudents, teacher } = classObj;
-    return { name, code, numStudents, teacher };
+    const { name, code, teacher } = classObj;
+    return { name, code, teacher };
   },
 
   fromFirestore: (snapshot, options) => {
