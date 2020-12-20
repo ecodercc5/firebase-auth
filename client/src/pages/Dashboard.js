@@ -14,6 +14,8 @@ export const Dashboard = () => {
   useAuthRoleSetup();
   const { auth, signOut } = useAuth();
 
+  console.log({ auth });
+
   const role = auth.claims.role;
 
   const getDashboard = (role) => {

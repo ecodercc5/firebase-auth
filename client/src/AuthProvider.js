@@ -24,16 +24,10 @@ export const AuthProvider = ({ children }) => {
   const history = useHistory();
 
   useEffect(() => {
-    if (user) {
-      firebase.auth().currentUser.getIdTokenResult().then(console.log);
-      api.getAuthToken().then((token) => console.log({ token }));
-      api.get("/whrolly").then((r) => console.log(r));
-    }
-  }, [user]);
-
-  useEffect(() => {
     // react to changes in auth state
     const unsubscribe = firebase.auth().onAuthStateChanged(async (usr) => {
+      setLoading(true);
+
       console.log("auth state change");
 
       if (usr) {

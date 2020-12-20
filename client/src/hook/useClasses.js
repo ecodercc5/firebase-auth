@@ -1,9 +1,12 @@
 import { useAsync } from "./useAsync";
 import { classApi } from "../services/classApi";
 import { useEffect, useState } from "react";
+import { useStore, useStoreValue } from "../store";
 
 export const useClasses = () => {
-  const [classes, setClasses] = useState([]);
+  const store = useStore();
+  const classes = useStoreValue("classes", []);
+
   const { loading, error, execute } = useAsync(
     () => classApi.getClasses(),
     [],
@@ -13,16 +16,29 @@ export const useClasses = () => {
   useEffect(() => {
     const initClasses = () => execute();
 
-    initClasses().then((clsses) => setClasses(clsses));
-  }, [execute]);
+    initClasses().then((clsses) => {
+      console.log({ clsses });
+
+      store.set("classes", clsses);
+    });
+  }, [execute, store]);
 
   return { loading, error, classes };
 };
 
 export const useAddClass = () => {
-  const { loading, error, execute } = useAsync(() => {}, [], { lazy: true });
+  const store = useStore();
+  const addClass = async ({ name }) => {
+    try {
+      const newClass = await classApi.addClass({ name });
 
-  const addClass = () => {};
+      store.update("classes", (prevClasses) => [...prevClasses, newClass]);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-  return { loading, error };
+  const { loading, error, execute } = useAsync(addClass, [], { lazy: true });
+
+  return [execute, { loading, error }];
 };

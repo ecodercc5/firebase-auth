@@ -20,25 +20,35 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", isTeacher, async (req, res) => {
-  const { uid: teacherId } = req.userClaims;
+  const { uid: teacherId, email } = req.userClaims;
   const { name: className } = req.body;
+
+  console.log(req.body);
+  console.log({ className });
 
   const classes = db.collection("classes");
   const classRef = classes.doc();
 
-  const classRoom = new Class({
-    id: classRef.id,
-    name: className,
-    teacherId,
-  });
+  const teacher = { email, id: teacherId };
+  try {
+    const classRoom = new Class({
+      id: classRef.id,
+      name: className,
+      teacher,
+    });
 
-  await classRef.withConverter(ClassConverter).set(classRoom);
+    await classRef.withConverter(ClassConverter).set(classRoom);
 
-  return res.json({
-    data: {
-      class: classRoom.toJSON(),
-    },
-  });
+    return res.json({
+      data: {
+        class: classRoom.toJSON(),
+      },
+    });
+  } catch (err) {
+    console.error(err);
+
+    return res.status(400).json({ message: "Something weird happened" });
+  }
 });
 
 module.exports = router;

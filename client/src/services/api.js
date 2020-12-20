@@ -16,6 +16,7 @@ export class Api {
 
     return {
       Authorization: authToken,
+      "Content-Type": "application/json",
     };
   }
 

@@ -1,8 +1,10 @@
-import React from "react";
-import { useClasses } from "../hook/useClasses";
+import React, { useState } from "react";
+import { useAddClass, useClasses } from "../hook/useClasses";
 
 export const TeacherDashboard = () => {
+  const [className, setClassName] = useState("");
   const { loading, error, classes } = useClasses();
+  const [addClass] = useAddClass();
 
   return (
     <div>
@@ -20,8 +22,19 @@ export const TeacherDashboard = () => {
         </ul>
       )}
 
-      <form>
-        <input />
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+
+          addClass({ name: className });
+
+          setClassName("");
+        }}
+      >
+        <input
+          value={className}
+          onChange={(e) => setClassName(e.target.value)}
+        />
         <button>Add Class</button>
       </form>
     </div>

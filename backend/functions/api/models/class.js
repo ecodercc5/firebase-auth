@@ -3,18 +3,18 @@ const { uid } = require("uid");
 const { db } = require("../../firestore");
 
 class Class extends Model {
-  constructor({ id, name, code = uid(6), numStudents = 0, teacherId }) {
+  constructor({ id, name, code = uid(6), numStudents = 0, teacher }) {
     super({ id });
     this.name = name;
     this.code = code;
     this.numStudents = numStudents;
-    this.teacherId = teacherId;
+    this.teacher = teacher;
   }
 
   static async getClassesByTeacherId(teacherId) {
     const classesQuery = db
       .collection("classes")
-      .where("teacherId", "==", teacherId);
+      .where("teacher.id", "==", teacherId);
     const snapshots = await classesQuery.withConverter(ClassConverter).get();
 
     const classDocs = snapshots.docs.map((doc) => doc.data());
@@ -24,8 +24,8 @@ class Class extends Model {
 
 const ClassConverter = {
   toFirestore: (classObj) => {
-    const { name, code, numStudents, teacherId } = classObj;
-    return { name, code, numStudents, teacherId };
+    const { name, code, numStudents, teacher } = classObj;
+    return { name, code, numStudents, teacher };
   },
 
   fromFirestore: (snapshot, options) => {
